@@ -18,21 +18,27 @@ public class ContractTest extends BaseTest {
     @Test
     public void deployAndCallHelloWorld() throws Exception {
         // deploy contract
-        HelloWorld helloWorld =
-                HelloWorld.deploy(
-                                web3j,
-                                credentials,
-                                new StaticGasProvider(
-                                        GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT))
-                        .send();
+//        HelloWorld helloWorld =
+//                HelloWorld.deploy(
+//                                web3j,
+//                                credentials,
+//                                new StaticGasProvider(
+//                                        GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT))
+//                        .send();
+
+        // load 服务器上bcos的hello world合约
+        String contractAddr = "0x7a519f571f028074d7929be5456cedcb6be9c424";
+        HelloWorld helloWorld = HelloWorld.load(contractAddr, web3j, credentials, new StaticGasProvider(
+                                        GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
+
         if (helloWorld != null) {
             System.out.println("HelloWorld address is: " + helloWorld.getContractAddress());
             // call set function
-            helloWorld.set("Hello, World!").send();
+//            helloWorld.set("Hello, World!").send();
             // call get function
             String result = helloWorld.get().send();
             System.out.println(result);
-            assertTrue("Hello, World!".equals(result));
+            assertTrue("hello trustTravel".equals(result));
         }
     }
 }
