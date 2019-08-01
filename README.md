@@ -42,7 +42,14 @@ Tasks
     
 - [x] 登录防止了用户名重复 已完成 修改了智能合约 添加require
 
-Problem
+- [x] 测试用户注册登录
+
+- [] 测试用户订购酒店 景点
+
+### Tech Problem
  
 - TransactionReceipt 没有合约写操作返回值 建议使用event log 在receipt中解析比较麻烦
 - TransactionReceipt的status即使是0，也会成功执行。与eip不符，观察发现status 0x0为成功，0x16为失败
+
+### Design Problem
+- 酒店与景点数据在前端模拟？

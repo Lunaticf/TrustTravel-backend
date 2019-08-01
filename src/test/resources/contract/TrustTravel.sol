@@ -99,7 +99,7 @@ contract TrustTravel {
     PendingOrder[] pendingPool;
     PendingSceneOrder[] pendingScenePool;
 
-    //User Register
+    // User Register
     function UserRegister(string memory username, string passwd, address _addr) public returns(bool, string memory, string memory){
         require(
             Login[username].addr == address(0)
@@ -125,7 +125,7 @@ contract TrustTravel {
         }
     }
     
-    //getUserInfo
+    // getUserInfo
     function GetUserAddress(string memory username) view public returns(address) {
         return Login[username].addr;
     }
