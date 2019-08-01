@@ -31,3 +31,18 @@ junit绿色就是成功了
             assertTrue("hello trustTravel".equals(result));
         }
 ```
+
+#### 部署的合约地址： 0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729
+
+
+
+Tasks
+
+- [x] 编译与部署TurstTravel智能合约
+    
+- [x] 登录防止了用户名重复 已完成 修改了智能合约 添加require
+
+Problem
+ 
+- TransactionReceipt 没有合约写操作返回值 建议使用event log 在receipt中解析比较麻烦
+- TransactionReceipt的status即使是0，也会成功执行。与eip不符，观察发现status 0x0为成功，0x16为失败

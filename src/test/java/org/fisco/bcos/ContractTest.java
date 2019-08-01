@@ -3,17 +3,24 @@ package org.fisco.bcos;
 import static org.junit.Assert.assertTrue;
 
 import org.fisco.bcos.constants.GasConstants;
+import org.fisco.bcos.service.IdentityService;
 import org.fisco.bcos.temp.HelloWorld;
+import org.fisco.bcos.temp.TrustTravel;
 import org.fisco.bcos.web3j.crypto.Credentials;
 import org.fisco.bcos.web3j.protocol.Web3j;
+import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tx.gas.StaticGasProvider;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 public class ContractTest extends BaseTest {
 
     @Autowired private Web3j web3j;
     @Autowired private Credentials credentials;
+    @Autowired private IdentityService identityService;
 
     @Test
     public void deployAndCallHelloWorld() throws Exception {
@@ -36,9 +43,62 @@ public class ContractTest extends BaseTest {
             // call set function
 //            helloWorld.set("Hello, World!").send();
             // call get function
-            String result = helloWorld.get().send();
-            System.out.println(result);
-            assertTrue("hello trustTravel".equals(result));
+            TransactionReceipt receipt = helloWorld.set("fuck").send();
+            System.out.println(receipt);
+            System.out.println(helloWorld.get().send());
+
         }
     }
+
+    @Test
+    public void deployTrustTravel() throws Exception {
+        TrustTravel trustTravel =
+                TrustTravel.deploy(
+                                web3j,
+                                credentials,
+                                new StaticGasProvider(
+                                        GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT))
+                        .send();
+        System.out.println(trustTravel.getContractAddress());
+    }
+
+    @Test
+    public void CallTrustTravel() throws Exception {
+        String contractAddr = "0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729";
+        TrustTravel trustTravel = TrustTravel.load(contractAddr, web3j, credentials, new StaticGasProvider(
+                GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
+
+        // 为用户生成一个地址
+        String address = identityService.getIdentity().address;
+        System.out.println("生成的用户地址： " + address);
+
+        // call user register
+        TransactionReceipt receipt = trustTravel.UserRegister("alice", "123456", address).send();
+        System.out.println(receipt);
+        // 0x1代表成功
+        //Assert.assertEquals(receipt.getStatus(), "0x1");
+
+        // 重复注册应该不成功
+        receipt = trustTravel.UserRegister("alice", "123456", address).send();
+        System.out.println(receipt);
+        // 0x1代表成功
+        //Assert.assertEquals(receipt.getStatus(), "0x1");
+
+        String retAddress = trustTravel.GetUserAddress("alice").send();
+        System.out.println(retAddress);
+        // get user address
+        Assert.assertEquals(address, retAddress);
+
+        // user login true
+        Tuple3<Boolean, String, String> res = trustTravel.UserLogin("alice", "123456").send();
+        Assert.assertTrue(res.getValue1());
+
+        // user login false
+        // 密码错误
+        res = trustTravel.UserLogin("alice", "123213").send();
+        Assert.assertFalse(res.getValue1());
+
+    }
+
+
 }
