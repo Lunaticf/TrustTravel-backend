@@ -39,12 +39,22 @@ junit绿色就是成功了
 Tasks
 
 - [x] 编译与部署TurstTravel智能合约
+
+- [] docapijs 生成文档
+
+- [] postman测试接口
     
 - [x] 登录防止了用户名重复 已完成 修改了智能合约 添加require
 
-- [x] 测试用户注册登录
+- [x] 设计 完成用户注册登录接口 测试成功
 
-- [] 测试用户订购酒店 景点
+- [ ] 完成用户session
+
+
+
+- [ ] 测试用户订购酒店 景点
+
+- [ ] 做用户登录的session
 
 ### Tech Problem
  

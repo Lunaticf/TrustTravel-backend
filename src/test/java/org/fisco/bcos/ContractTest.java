@@ -3,7 +3,7 @@ package org.fisco.bcos;
 import static org.junit.Assert.assertTrue;
 
 import org.fisco.bcos.constants.GasConstants;
-import org.fisco.bcos.service.IdentityService;
+import org.fisco.bcos.service.UserService;
 import org.fisco.bcos.temp.HelloWorld;
 import org.fisco.bcos.temp.TrustTravel;
 import org.fisco.bcos.web3j.crypto.Credentials;
@@ -20,7 +20,7 @@ public class ContractTest extends BaseTest {
 
     @Autowired private Web3j web3j;
     @Autowired private Credentials credentials;
-    @Autowired private IdentityService identityService;
+    @Autowired private UserService userService;
 
     @Test
     public void deployAndCallHelloWorld() throws Exception {
@@ -69,7 +69,7 @@ public class ContractTest extends BaseTest {
                 GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
 
         // 为用户生成一个地址
-        String address = identityService.getIdentity().address;
+        String address = userService.genAddress();
         System.out.println("生成的用户地址： " + address);
 
         // call user register

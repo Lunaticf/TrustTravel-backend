@@ -1,5 +1,8 @@
 encrypt-type: # 0:standard, 1:guomi
- encrypt-type: 0 
+ encrypt-type: 0
+
+contract:
+  address: '0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729'
  
 group-channel-connections-config:
   all-channel-connections:
@@ -20,3 +23,4 @@ accounts:
   pem-file: 0xcdcce60801c0a2e6bb534322c32ae528b9dec8d2.pem
   p12-file: 0x98333491efac02f8ce109b0c499074d47e7779a6.p12
   password: 123456
+
