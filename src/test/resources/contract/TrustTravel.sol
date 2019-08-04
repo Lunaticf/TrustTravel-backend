@@ -134,7 +134,7 @@ contract TrustTravel {
         SceneInfo memory sceneInfo = SceneInfo(_province, _city, s_name, s_price);
         Comment memory comment = Comment(0, "", 5, false);
 
-    UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1, comment);
+        UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1, comment);
         userInfo[_addr].orders1.push(userSceneOrder);
         userInfo[_addr].Owner_money -= s_price;
     }

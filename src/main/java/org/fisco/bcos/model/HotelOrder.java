@@ -9,6 +9,9 @@ public class HotelOrder {
     private String roomType;
     private String fromDate;
     private String toDate;
+    private String ota;
+    private int totalPrice;
+    private int flag;
 
     public String getOta() {
         return ota;
@@ -18,8 +21,7 @@ public class HotelOrder {
         this.ota = ota;
     }
 
-    private String ota;
-    private int totalPrice;
+
 
     public String getAddr() {
         return addr;
@@ -79,7 +81,7 @@ public class HotelOrder {
         this.flag = flag;
     }
 
-    private int flag;
+
 
     public HotelOrder() {
 
