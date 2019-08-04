@@ -40,26 +40,30 @@ Tasks
 
 - [x] 编译与部署TurstTravel智能合约
 
-- [] docapijs 生成文档
+- [x] docapijs 生成文档
 
-- [] postman测试接口
+- [x] postman测试接口
     
 - [x] 登录防止了用户名重复 已完成 修改了智能合约 添加require
 
 - [x] 设计 完成用户注册登录接口 测试成功
 
-- [ ] 完成用户session
+- [x] 获取用户余额
 
+- [x] 删掉了智能合约冗余的方法、变量
 
+- [x] 用户订购酒店 获取酒店订单
 
-- [ ] 测试用户订购酒店 景点
+- [ ] 用户评论酒店
 
-- [ ] 做用户登录的session
+- [ ] 用户订购景点 评论景点
 
 ### Tech Problem
  
 - TransactionReceipt 没有合约写操作返回值 建议使用event log 在receipt中解析比较麻烦
 - TransactionReceipt的status即使是0，也会成功执行。与eip不符，观察发现status 0x0为成功，0x16为失败
-
+- springmvc-@RequestBody无法映射首字母大写的属性 踩了好久的坑。。
 ### Design Problem
 - 酒店与景点数据在前端模拟？
+- 关于订单的状态 我之前写的APP设想的是一个流程，用户发起后销售方进行再次确认，两次确认都在链上记录 所以分了两个状态 这里先不管
+- 查询订单的时候 后端会多返回一个时间戳 前端自行转换

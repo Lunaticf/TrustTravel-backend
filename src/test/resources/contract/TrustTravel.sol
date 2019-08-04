@@ -24,7 +24,6 @@ contract TrustTravel {
         uint time;        //评论时间
         string comment;     //评语
         uint score;         //评分
-        //PendingOrder pendingOrder;
     }
     
     //景点评论信息
@@ -40,7 +39,7 @@ contract TrustTravel {
         Room room;          // 订购房间
         //SceneInfo sceneInfo;//预定景点信息
         string OTA;         // 订购的平台
-        string state;       // 表明订单状态：init/comfirmed
+        string state;       // 表明订单状态：init/confirmed
         uint flag;          //设置整型，定义交易状态
     }
     
@@ -62,19 +61,6 @@ contract TrustTravel {
         Comment[] comments;
         Comment1[] comments1;
     }
-
-    // 类似于指针，指向用户的订单，只保存地址和索引
-    struct PendingOrder {
-        address userAddr;
-        uint idx;
-        //Comment[] commets;
-    }
-    
-    //指向用户的订票信息
-    struct PendingSceneOrder {
-        address userAddr;
-        uint idx;
-    }
     
     struct UserInfo {
         string passwd;
@@ -95,10 +81,6 @@ contract TrustTravel {
     constructor() public  { 
 
     }
-
-    PendingOrder[] pendingPool;
-    PendingSceneOrder[] pendingScenePool;
-
     // User Register
     function UserRegister(string memory username, string passwd, address _addr) public returns(bool, string memory, string memory){
         require(
@@ -157,12 +139,10 @@ contract TrustTravel {
         SceneInfo memory sceneInfo = SceneInfo(_province, _city, s_name, s_price);
         UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1);
         userInfo[_addr].orders1.push(userSceneOrder);
-        PendingSceneOrder memory pendingSceneOrder = PendingSceneOrder(_addr, userInfo[_addr].orders1.length - 1);
-        pendingScenePool.push(pendingSceneOrder);
         userInfo[_addr].Owner_money -= s_price;
     }
 
-    // 发起订购
+    // 订购酒店房间
     function initializeOrder(address _addr, string memory _hotel, string memory _roomType, string memory _fromDate, string memory _toDate, string memory _OTA, uint _totalPrice, uint f2) public { 
         //require(passwd == userInfo[_addr].passwd && username == userInfo[_addr].username);
         Room memory room = Room(_hotel, _roomType, _fromDate, _toDate, _totalPrice);
@@ -170,9 +150,6 @@ contract TrustTravel {
         UserOrder memory userOrder = UserOrder(now, room, _OTA, "initialization", f2);
         userInfo[_addr].orders.push(userOrder);
 
-        PendingOrder memory pendingOrder = PendingOrder(_addr,  userInfo[_addr].orders.length - 1);
-        // 把订单推到PendingPool;
-        pendingPool.push(pendingOrder);
         userInfo[_addr].Owner_money -= _totalPrice;
     }
     
@@ -186,7 +163,6 @@ contract TrustTravel {
          }else{
              return(false, "fail!");
          }
-        
     }
     
     //获取酒店评论信息
@@ -282,7 +258,4 @@ contract TrustTravel {
     function getUserCommentHotelCount(address _addr) public view returns(uint){
         return userInfo[_addr].comments.length;
     }
-
-
-
 }

@@ -1,6 +1,5 @@
 package org.fisco.bcos.service;
 
-import org.fisco.bcos.exception.TransactionExecException;
 import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.TrustTravel;
 import org.fisco.bcos.model.User;
@@ -12,9 +11,10 @@ import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
+import java.util.HashMap;
 
 @Service
 public class UserService {
@@ -85,8 +85,8 @@ public class UserService {
     }
 
     // 用户登录
-    public CommonResult<String> userLogin(User user) {
-        CommonResult<String> commonResult = new CommonResult<>("success");
+    public CommonResult userLogin(User user) {
+        CommonResult commonResult = new CommonResult<>("success");
         try {
             Tuple3<Boolean, String, String> tuple3 = trustTravel.UserLogin(user.getUsername(), user.getPassword()).send();
             // 用户名密码错误
@@ -94,11 +94,29 @@ public class UserService {
                 commonResult.setMessage("username or password error");
                 return commonResult;
             } else {
-                commonResult.setData(tuple3.getValue3());
+                HashMap hashMap = new HashMap();
+                hashMap.put("addr", tuple3.getValue3());
+                commonResult.setData(hashMap);
                 return commonResult;
             }
         } catch (Exception e) {
             logger.info("用户登录 - 交易发生异常", e.getMessage());
+            commonResult.setMessage("server error");
+            return commonResult;
+        }
+    }
+
+    // 获取用户余额
+    public CommonResult getUserBalance(String addr) {
+        CommonResult commonResult = new CommonResult<>("success");
+        try {
+            BigInteger bigInteger = trustTravel.getUserMoney(addr).send();
+            HashMap hashMap = new HashMap();
+            hashMap.put("balance", bigInteger.toString(10));
+            commonResult.setData(hashMap);
+            return commonResult;
+        } catch (Exception e) {
+            logger.info("获取用户余额 - 交易发生异常", e.getMessage());
             commonResult.setMessage("server error");
             return commonResult;
         }

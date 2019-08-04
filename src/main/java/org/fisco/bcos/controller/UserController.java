@@ -26,7 +26,7 @@ public class UserController {
 
 
     /**
-     * @api {POST} /user register a user
+     * @api {post} /user register a user
      * @apiName AddUser
      * @apiGroup User
      *
@@ -76,20 +76,18 @@ public class UserController {
     }
 
     /**
-     * @api {GET} /user get user address by username
+     * @api {get} /user/:username get user address by username
+     *
      * @apiName getUserAddress
      * @apiGroup User
-     *
-     * @apiParamExample {json} Request-Example:
-     *     {
-     *       "username": "john"
-     *     }
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
-     *       "addr": "0x....."
+     *       "data": {
+     *         "addr": "0x....."
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -121,7 +119,7 @@ public class UserController {
     }
 
     /**
-     * @api {POST} /user user login
+     * @api {post} /user user login
      * @apiName  user login
      * @apiGroup User
      *
@@ -134,8 +132,10 @@ public class UserController {
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *       "message": "success"
-     *       "addr": "0x..."
+     *       "message": "success",
+     *       "data": {
+     *          "addr": "0x..."
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -158,6 +158,47 @@ public class UserController {
                 return new ResponseEntity<>(commonResult, HttpStatus.OK);
             case "username or password error":
                 return new ResponseEntity<>(commonResult, HttpStatus.BAD_REQUEST);
+            case "server error":
+                return new ResponseEntity<>(commonResult, HttpStatus.INTERNAL_SERVER_ERROR);
+            default:
+                System.exit(1); // this should nerve happen;
+        }
+        return null;    // cheat the compiler
+    }
+
+
+    /**
+     * @api {get} /user/balance/:addr get user balance
+     * @apiParam {String} user address
+     *
+     * @apiName  user balance
+     * @apiGroup User
+     *
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "message": "success"
+     *       "data": {
+     *          "balance": "2000"
+     *        }
+     *     }
+     *
+     * @apiErrorExample Client-Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *
+     * @apiErrorExample Server-Error-Response:
+     *     HTTP/1.1 500 Server Error
+     *     {
+     *       "message": "server error"
+     *     }
+     */
+    @GetMapping("/user/balance/{addr}")
+    public ResponseEntity<CommonResult<String>> getUserBalance(@PathVariable String addr) {
+        CommonResult<String> commonResult = userService.getUserBalance(addr);
+        switch (commonResult.getMessage()) {
+            case "success" :
+                return new ResponseEntity<>(commonResult, HttpStatus.OK);
             case "server error":
                 return new ResponseEntity<>(commonResult, HttpStatus.INTERNAL_SERVER_ERROR);
             default:
