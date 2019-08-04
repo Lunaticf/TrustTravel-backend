@@ -22,16 +22,11 @@ contract TrustTravel {
     //酒店评论信息
     struct Comment {
         uint time;        //评论时间
-        string comment;     //评语
+        string content;     //评语
         uint score;         //评分
+        bool exist;         // 判断是否存在
     }
-    
-    //景点评论信息
-    struct Comment1 {
-        uint time;          //评论时间
-        string comment;     //评语
-        uint score;         //评分
-    }
+
 
     // 用户酒店交易
     struct UserOrder {
@@ -41,6 +36,7 @@ contract TrustTravel {
         string OTA;         // 订购的平台
         string state;       // 表明订单状态：init/confirmed
         uint flag;          //设置整型，定义交易状态
+        Comment comment;    // 评论
     }
     
     // 用户预订旅游门票
@@ -50,6 +46,7 @@ contract TrustTravel {
         string OTA;         //预定的平台
         string state;       //订单状态
         uint flag1;         //设置整型，定义交易状态
+        Comment comment;     // 评论
     }
 
     struct User {
@@ -58,8 +55,6 @@ contract TrustTravel {
         uint Owner_money;
         UserOrder[] orders;
         UserSceneOrder[] orders1;
-        Comment[] comments;
-        Comment1[] comments1;
     }
     
     struct UserInfo {
@@ -137,7 +132,9 @@ contract TrustTravel {
     function bookOrder(address _addr, string memory _province, string memory _city, string memory s_name, uint s_price, string memory _OTA, uint f1) public {
         //require(passwd == userInfo[_addr].passwd && username == userInfo[_addr].username);
         SceneInfo memory sceneInfo = SceneInfo(_province, _city, s_name, s_price);
-        UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1);
+        Comment memory comment = Comment(0, "", 5, false);
+
+    UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1, comment);
         userInfo[_addr].orders1.push(userSceneOrder);
         userInfo[_addr].Owner_money -= s_price;
     }
@@ -146,53 +143,53 @@ contract TrustTravel {
     function initializeOrder(address _addr, string memory _hotel, string memory _roomType, string memory _fromDate, string memory _toDate, string memory _OTA, uint _totalPrice, uint f2) public { 
         //require(passwd == userInfo[_addr].passwd && username == userInfo[_addr].username);
         Room memory room = Room(_hotel, _roomType, _fromDate, _toDate, _totalPrice);
+        Comment memory comment = Comment(0, "", 5, false);
         //SceneInfo memory sceneInfo = SceneInfo(_province, _city, s_name, s_price);
-        UserOrder memory userOrder = UserOrder(now, room, _OTA, "initialization", f2);
+        UserOrder memory userOrder = UserOrder(now, room, _OTA, "initialization", f2, comment);
         userInfo[_addr].orders.push(userOrder);
 
         userInfo[_addr].Owner_money -= _totalPrice;
     }
     
     //对酒店订单进行评价
-    function addCommentForHotel(uint _idx, address _addr, uint time, string memory content, uint score) public returns(bool, string memory){
-         //判断是否已经预订了
-         if (userInfo[_addr].orders[_idx].flag == 1){
-             Comment memory comment = Comment(time, content, score);
-             userInfo[_addr].comments.push(comment);
-             return(true, "successful!");
-         }else{
-             return(false, "fail!");
-         }
+    function addCommentForHotel(uint _idx, address _addr, string memory content, uint score) public {
+        require(
+            userInfo[_addr].orders[_idx].flag == 1
+        );
+        Comment memory comment = Comment(now, content, score, true);
+        userInfo[_addr].orders[_idx].comment = comment;
     }
-    
-    //获取酒店评论信息
-    function getCommentInfoForHotel(uint _idx, address _addr) public view returns (string memory, uint, string memory, uint){
-        string storage hotel_name = userInfo[_addr].orders[_idx].room.hotel;
-        uint time = userInfo[_addr].comments[_idx].time;
-        string memory content = userInfo[_addr].comments[_idx].comment;
-        uint score = userInfo[_addr].comments[_idx].score;
-        return (hotel_name, time, content, score);
-    }
+
     
     //对景点订单进行评价
-    function addCommentForScene(uint _idx, address _addr, uint time, string memory content, uint score) public returns (bool, string memory){
-        if (userInfo[_addr].orders1[_idx].flag1 == 1){
-            Comment1 memory comment1 = Comment1(time, content, score);
-            userInfo[_addr].comments1.push(comment1);
-            return(true, "successful!");
-        }else{
-            return(false, "fail!");
-        }
+    function addCommentForScene(uint _idx, address _addr, string memory content, uint score) public{
+        require(
+            userInfo[_addr].orders1[_idx].flag1 == 1
+        );
+        Comment memory comment = Comment(now, content, score, true);
+        userInfo[_addr].orders1[_idx].comment = comment;
+    }
+
+    // 获得酒店评论
+    function getUserOrdersComment(uint _idx, address _addr) public view returns (bool, string memory, uint, uint){
+        bool  _exist =   userInfo[ _addr].orders[_idx].comment.exist;
+        string storage _content = userInfo[ _addr].orders[_idx].comment.content;
+
+        uint _score = userInfo[ _addr].orders[_idx].comment.score;
+        uint  _commentTime = userInfo[ _addr].orders[_idx].comment.time;
+        return (_exist, _content, _score, _commentTime);
+    }
+
+    function getUserSceneOrdersComment(uint _idx, address _addr) public view returns (bool, string memory, uint, uint){
+        bool  _exist =   userInfo[ _addr].orders1[_idx].comment.exist;
+        string storage _content = userInfo[ _addr].orders1[_idx].comment.content;
+
+        uint _score = userInfo[ _addr].orders1[_idx].comment.score;
+        uint  _commentTime = userInfo[ _addr].orders1[_idx].comment.time;
+        return (_exist, _content, _score, _commentTime);
     }
     
-    //获取景点评论信息
-    function getCommentInfoForScene(uint _idx, address _addr) public view returns(string memory, uint, string memory, uint){
-        string storage scene_name = userInfo[_addr].orders1[_idx].sceneInfo.S_name;
-        uint time = userInfo[_addr].comments1[_idx].time;
-        string memory content = userInfo[_addr].comments1[_idx].comment;
-        uint score = userInfo[_addr].comments1[_idx].score;
-        return(scene_name, time, content, score);
-    }
+
     
     // solidity 不能返回结构体，更不能返回结构体数组...
     // 所以这里的操作有点麻烦
@@ -206,11 +203,10 @@ contract TrustTravel {
     }
     
     function getUserSceneOrdersInfo(uint _idx, address _addr) public view returns(uint, string memory, string memory){
-        uint _time = userInfo[_addr].orders1[_idx].time;
-        string storage _OTA = userInfo[_addr].orders1[_idx].OTA;
-        string storage _state = userInfo[_addr].orders1[_idx].state;
-        
-        return(_time, _OTA, _state);
+        uint _time =  userInfo[ _addr].orders1[_idx].time;
+        string storage _OTA = userInfo[ _addr].orders1[_idx].OTA;
+        string storage _state = userInfo[ _addr].orders1[_idx].state;
+        return (_time, _OTA, _state);
     }
 
     // 得到用户订单的酒店信息
@@ -248,14 +244,5 @@ contract TrustTravel {
     function getUserSceneCount(address _addr) public view returns(uint) {
         return userInfo[_addr].orders1.length;
     }
-    
-    //得到用户景点评论数量
-    function getUserCommentSceneCount(address _addr) public view returns(uint) {
-        return userInfo[_addr].comments1.length;
-    }
-    
-    //得到用户酒店评论数量
-    function getUserCommentHotelCount(address _addr) public view returns(uint){
-        return userInfo[_addr].comments.length;
-    }
+
 }

@@ -5,6 +5,7 @@ import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.TrustTravel;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
+import org.fisco.bcos.web3j.tuples.generated.Tuple4;
 import org.fisco.bcos.web3j.tuples.generated.Tuple5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,10 @@ public class HotelService {
                     hotelOrder.getRoomType(), hotelOrder.getFromDate(), hotelOrder.getToDate(),
                     hotelOrder.getOta(), BigInteger.valueOf(hotelOrder.getTotalPrice()), BigInteger.valueOf(hotelOrder.getFlag())).send();
             if (receipt.getStatus().equals("0x0")){
-                System.out.println("fuck");
                 logger.info("用户订购成功");
                 return commonResult;
             } else {
                 logger.info("交易执行发生异常 - 用户订购不成功");
-                System.out.println("fuck1");
                 commonResult.setMessage("order failed");
                 return commonResult;
             }
@@ -82,6 +81,7 @@ public class HotelService {
             hashMap.put("toDate", tuple5.getValue4());
             hashMap.put("totalPrice", tuple5.getValue5());
             commonResult.setData(hashMap);
+
             return commonResult;
         } catch (Exception e) {
             logger.info("获取用户酒店订单详情信息 - 异常", e.getMessage());
@@ -89,6 +89,49 @@ public class HotelService {
             return commonResult;
         }
     }
+
+    // 给酒店评论
+    public CommonResult commentHotel(String addr, int index, String content, int score) {
+        CommonResult commonResult = new CommonResult("success");
+        try {
+            TransactionReceipt receipt = trustTravel.addCommentForHotel(BigInteger.valueOf(index), addr, content, BigInteger.valueOf(score)).send();
+            if (receipt.getStatus().equals("0x0")){
+                logger.info("用户评论成功");
+                return commonResult;
+            } else {
+                logger.info("交易执行发生异常 - 用户评论不成功 未订购酒店");
+                commonResult.setMessage("user not order");
+                return commonResult;
+            }
+        } catch (Exception e) {
+            logger.info("用户评论房间 - 交易发生异常 " + e.getMessage());
+            commonResult.setMessage("server error");
+            return commonResult;
+        }
+    }
+
+    // 获取酒店评论
+    public CommonResult getHotelOrderComment(String addr, int index) {
+        CommonResult commonResult = new CommonResult<>("success");
+        try {
+            Tuple4<Boolean, String, BigInteger, BigInteger> tuple4 = trustTravel.getUserOrdersComment(BigInteger.valueOf(index), addr).send();
+            HashMap hashMap = new HashMap();
+            hashMap.put("exist", tuple4.getValue1());
+            hashMap.put("content", tuple4.getValue2());
+            hashMap.put("score", tuple4.getValue3().intValue());
+            hashMap.put("time", tuple4.getValue4().intValue());
+
+            commonResult.setData(hashMap);
+
+            return commonResult;
+        } catch (Exception e) {
+            logger.info("获取用户酒店订单评论信息 - 异常", e.getMessage());
+            commonResult.setMessage("server error");
+            return commonResult;
+        }
+    }
+
+
 
 
 }
