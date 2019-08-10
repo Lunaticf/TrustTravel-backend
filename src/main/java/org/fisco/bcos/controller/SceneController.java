@@ -17,9 +17,9 @@ public class SceneController {
     private SceneService sceneService;
 
     /**
-     * @api {post} /scene 订购景点门票
+     * @api {post} /scene 订购旅游门票
      * @apiName bookScene
-     * @apiGroup scene
+     * @apiGroup Scene
      *
      * @apiParamExample {json} Request-Example:
      *     {
@@ -36,6 +36,9 @@ public class SceneController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
+     *       "data": {
+     *          "txhash": "0x.."
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -64,7 +67,7 @@ public class SceneController {
     }
 
     /**
-     * @api {get} /scene/count/:addr 得到用户酒店订单数量
+     * @api {get} /scene/count/:addr 获取用户旅游订单数量
      * @apiParam {String} user address
      *
      * @apiName getSceneOrderCount
@@ -75,7 +78,9 @@ public class SceneController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
-     *       "count": 3
+     *       "data": {
+     *           "count": 3
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -102,7 +107,7 @@ public class SceneController {
     }
 
     /**
-     * @api {get} /scene/:addr/:index 得到用户景点订单详细信息
+     * @api {get} /scene/:addr/:index 获取用户旅游订单详细信息
      * @apiParam {String} addr user address
      * @apiParam {Number} index 用户订单索引
      *
@@ -115,7 +120,6 @@ public class SceneController {
      *     {
      *       "message": "success",
      *       "data": {
-     *          "addr": "0x...",
      *          "province": "安徽",
      *          "city": "黄山市",
      *          "name": "黄山",
@@ -153,10 +157,10 @@ public class SceneController {
 
 
     /**
-     * @api {post} /scene/comment 给景点评论
+     * @api {post} /scene/comment 评论旅游服务
      *
      * @apiName commentHotel
-     * @apiGroup Hotel
+     * @apiGroup Scene
      *
      * @apiParamExample {json} Request-Example:
      *     {
@@ -170,6 +174,9 @@ public class SceneController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
+     *       "data": {
+     *          "txhash": "0x.."
+     *       }
      *     }
      *
      *     HTTP/1.1 200 OK
@@ -203,7 +210,7 @@ public class SceneController {
     }
 
     /**
-     * @api {get} /scene/comment/:addr/:index 得到用户景点订单评论
+     * @api {get} /scene/comment/:addr/:index 获取用户旅游服务评论
      * @apiParam {String} addr user address
      * @apiParam {Number} index 用户订单索引
      *

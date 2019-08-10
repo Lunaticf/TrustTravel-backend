@@ -4,6 +4,7 @@ import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.SceneOrder;
 import org.fisco.bcos.model.TrustTravel;
+import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tuples.generated.Tuple4;
@@ -32,6 +33,8 @@ public class SceneService {
                     sceneOrder.getCity(), sceneOrder.getName(), BigInteger.valueOf(sceneOrder.getPrice()),
                     sceneOrder.getOta(), BigInteger.valueOf(sceneOrder.getFlag())).send();
             if (receipt.getStatus().equals("0x0")){
+                HashMap hashMap = new HashMap();
+                HelpUtils.addTxDetails(hashMap, commonResult, receipt);
                 logger.info("用户订购成功");
                 return commonResult;
             } else {
@@ -47,7 +50,7 @@ public class SceneService {
         }
     }
 
-    // 获取酒店数量
+    // 获取景点数量
     public CommonResult getSceneOrderCount(String addr) {
         CommonResult commonResult = new CommonResult<>("success");
         try {
@@ -89,12 +92,14 @@ public class SceneService {
         }
     }
 
-    // 给酒店评论
+    // 给景点评论
     public CommonResult commentScene(String addr, int index, String content, int score) {
         CommonResult commonResult = new CommonResult("success");
         try {
             TransactionReceipt receipt = trustTravel.addCommentForScene(BigInteger.valueOf(index), addr, content, BigInteger.valueOf(score)).send();
             if (receipt.getStatus().equals("0x0")){
+                HashMap hashMap = new HashMap();
+                HelpUtils.addTxDetails(hashMap, commonResult, receipt);
                 logger.info("用户评论成功");
                 return commonResult;
             } else {

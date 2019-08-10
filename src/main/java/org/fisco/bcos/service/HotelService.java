@@ -3,6 +3,7 @@ package org.fisco.bcos.service;
 import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.TrustTravel;
+import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tuples.generated.Tuple4;
@@ -31,7 +32,11 @@ public class HotelService {
             TransactionReceipt receipt = trustTravel.initializeOrder(hotelOrder.getAddr(), hotelOrder.getHotel(),
                     hotelOrder.getRoomType(), hotelOrder.getFromDate(), hotelOrder.getToDate(),
                     hotelOrder.getOta(), BigInteger.valueOf(hotelOrder.getTotalPrice()), BigInteger.valueOf(hotelOrder.getFlag())).send();
+
+
             if (receipt.getStatus().equals("0x0")){
+                HashMap hashMap = new HashMap();
+                HelpUtils.addTxDetails(hashMap, commonResult, receipt);
                 logger.info("用户订购成功");
                 return commonResult;
             } else {
@@ -96,6 +101,8 @@ public class HotelService {
         try {
             TransactionReceipt receipt = trustTravel.addCommentForHotel(BigInteger.valueOf(index), addr, content, BigInteger.valueOf(score)).send();
             if (receipt.getStatus().equals("0x0")){
+                HashMap hashMap = new HashMap();
+                HelpUtils.addTxDetails(hashMap, commonResult, receipt);
                 logger.info("用户评论成功");
                 return commonResult;
             } else {
@@ -130,8 +137,4 @@ public class HotelService {
             return commonResult;
         }
     }
-
-
-
-
 }

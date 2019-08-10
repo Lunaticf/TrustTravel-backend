@@ -24,3 +24,5 @@ accounts:
   p12-file: 0x98333491efac02f8ce109b0c499074d47e7779a6.p12
   password: 123456
 
+server:
+  port: 3333

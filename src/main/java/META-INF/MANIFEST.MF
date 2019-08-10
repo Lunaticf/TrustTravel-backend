@@ -1,0 +1,57 @@
+Manifest-Version: 1.0
+Class-Path: httpclient-4.5.8.jar groovy-console-2.5.6.jar spring-boot-
+ starter-tomcat-2.1.4.RELEASE.jar spring-aop-5.1.6.RELEASE.jar guava-1
+ 9.0.jar groovy-2.5.6.jar mockito-core-2.23.4.jar jackson-datatype-jsr
+ 310-2.9.8.jar spring-boot-starter-test-2.1.4.RELEASE.jar netty-tcnati
+ ve-boringssl-static-2.0.24.Final.jar groovy-test-2.5.6.jar jackson-da
+ tatype-jdk8-2.9.8.jar asm-util-5.0.3.jar qdox-1.12.1.jar groovy-servl
+ et-2.5.6.jar ant-junit-1.9.13.jar HdrHistogram-2.1.9.jar spring-jcl-5
+ .1.6.RELEASE.jar jnr-enxio-0.14.jar junit-jupiter-engine-5.3.2.jar as
+ m-5.0.3.jar spring-boot-actuator-2.1.4.RELEASE.jar spring-context-5.1
+ .6.RELEASE.jar commons-codec-1.11.jar groovy-cli-picocli-2.5.6.jar ht
+ tpcore-4.4.11.jar spring-web-5.1.6.RELEASE.jar micrometer-core-1.1.4.
+ jar commons-logging-1.2.jar commons-lang-2.6.jar junit-jupiter-api-5.
+ 3.2.jar tomcat-embed-core-9.0.17.jar commons-cli-1.4.jar jackson-modu
+ le-parameter-names-2.9.8.jar spring-expression-5.1.6.RELEASE.jar bcpr
+ ov-jdk15on-1.54.jar ant-1.9.13.jar spring-tx-5.1.6.RELEASE.jar groovy
+ -testng-2.5.6.jar asm-tree-5.0.3.jar jnr-constants-0.9.6.jar groovy-j
+ mx-2.5.6.jar apiguardian-api-1.0.0.jar groovy-jsr223-2.5.6.jar hamcre
+ st-library-1.3.jar web3sdk-2.0.5.jar netty-all-4.1.34.Final.jar sprin
+ g-boot-test-autoconfigure-2.1.4.RELEASE.jar asm-5.0.4.jar jackson-dat
+ abind-2.9.8.jar junit-platform-commons-1.3.2.jar rxjava-1.3.8.jar obj
+ enesis-2.6.jar logback-core-1.2.3.jar jackson-core-2.9.8.jar slf4j-ap
+ i-1.7.26.jar Java-WebSocket-1.3.8.jar commons-configuration-1.10.jar 
+ commons-lang3-3.8.1.jar solcJ-all-0.4.25.jar rxjava-2.2.8.jar tomcat-
+ embed-websocket-9.0.17.jar groovy-datetime-2.5.6.jar commons-collecti
+ ons4-4.0.jar junit-4.12.jar byte-buddy-agent-1.9.12.jar json-smart-2.
+ 3.jar commons-io-2.4.jar json-path-2.4.0.jar spring-test-5.1.6.RELEAS
+ E.jar jackson-annotations-2.9.0.jar log4j-to-slf4j-2.11.2.jar groovy-
+ swing-2.5.6.jar asm-analysis-5.0.3.jar druid-1.0.29.jar groovy-macro-
+ 2.5.6.jar spring-boot-devtools-2.1.4.RELEASE.jar spring-webmvc-5.1.6.
+ RELEASE.jar junit-platform-engine-1.3.2.jar byte-buddy-1.9.12.jar val
+ idation-api-2.0.1.Final.jar groovy-sql-2.5.6.jar tomcat-embed-el-9.0.
+ 17.jar spring-core-5.1.6.RELEASE.jar jnr-posix-3.0.33.jar jnr-ffi-2.1
+ .2.jar spring-boot-actuator-autoconfigure-2.1.4.RELEASE.jar groovy-ni
+ o-2.5.6.jar spring-boot-autoconfigure-2.1.4.RELEASE.jar spring-boot-s
+ tarter-logging-2.1.4.RELEASE.jar groovy-templates-2.5.6.jar groovy-gr
+ oovysh-2.5.6.jar groovy-ant-2.5.6.jar netty-tcnative-2.0.20.Final.jar
+  spring-boot-test-2.1.4.RELEASE.jar groovy-json-2.5.6.jar accessors-s
+ mart-1.2.jar ant-launcher-1.9.13.jar logback-classic-1.2.3.jar jsonas
+ sert-1.5.0.jar spring-boot-starter-web-2.1.4.RELEASE.jar groovy-cli-c
+ ommons-2.5.6.jar hamcrest-core-1.3.jar lombok-1.18.6.jar testng-6.13.
+ 1.jar jffi-1.2.14.jar reactive-streams-1.0.2.jar javapoet-1.7.0.jar s
+ pring-boot-starter-actuator-2.1.4.RELEASE.jar classmate-1.4.0.jar gro
+ ovy-docgenerator-2.5.6.jar asm-commons-5.0.3.jar spring-boot-starter-
+ 2.1.4.RELEASE.jar picocli-3.9.2.jar jnr-x86asm-1.0.2.jar groovy-xml-2
+ .5.6.jar log4j-api-2.11.2.jar android-json-0.0.20131108.vaadin1.jar s
+ ystem-rules-1.18.0.jar jcommander-1.72.jar spring-boot-starter-json-2
+ .1.4.RELEASE.jar spring-boot-2.1.4.RELEASE.jar jul-to-slf4j-1.7.26.ja
+ r assertj-core-3.11.1.jar fastjson-1.2.58.jar junit-platform-launcher
+ -1.3.2.jar xmlunit-core-2.6.2.jar LatencyUtils-2.0.3.jar snakeyaml-1.
+ 23.jar javax.annotation-api-1.3.2.jar hibernate-validator-6.0.16.Fina
+ l.jar scrypt-1.4.0.jar jboss-logging-3.3.2.Final.jar groovy-groovydoc
+ -2.5.6.jar groovy-test-junit5-2.5.6.jar jnr-unixsocket-0.15.jar jffi-
+ 1.2.14-native.jar opentest4j-1.1.1.jar ant-antlr-1.9.13.jar jline-2.1
+ 4.6.jar spring-beans-5.1.6.RELEASE.jar
+Main-Class: org.fisco.bcos.Application
+

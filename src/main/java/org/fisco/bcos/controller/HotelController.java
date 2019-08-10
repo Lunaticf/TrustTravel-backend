@@ -18,7 +18,7 @@ public class HotelController {
     private HotelService hotelService;
 
     /**
-     * @api {post} /hotel 订购房间
+     * @api {post} /hotel 订购房间服务
      * @apiName bookHotel
      * @apiGroup Hotel
      *
@@ -38,6 +38,9 @@ public class HotelController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
+     *       "data": {
+     *           "txhash": "0x.."
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -67,7 +70,7 @@ public class HotelController {
     }
 
     /**
-     * @api {get} /hotel/count/:addr 得到用户酒店订单数量
+     * @api {get} /hotel/count/:addr 获取用户酒店订单数量
      * @apiParam {String} user address
      *
      * @apiName getHotelOrderCount
@@ -78,7 +81,9 @@ public class HotelController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
-     *       "count": 3
+     *       "data": {
+     *           "count": 3
+     *       }
      *     }
      *
      * @apiErrorExample Client-Error-Response:
@@ -105,7 +110,7 @@ public class HotelController {
     }
 
     /**
-     * @api {get} /hotel/:addr/:index 得到用户酒店订单详细信息
+     * @api {get} /hotel/:addr/:index 获取用户酒店订单详细信息
      * @apiParam {String} addr user address
      * @apiParam {Number} index 用户订单索引
      *
@@ -118,7 +123,6 @@ public class HotelController {
      *     {
      *       "message": "success",
      *       "data": {
-     *            "addr": "0x...",
      *            "hotel": "如家",
      *            "roomType": "大床房",
      *            "fromDate": "2019-8-1",
@@ -155,7 +159,7 @@ public class HotelController {
 
 
     /**
-     * @api {post} /hotel/comment 给酒店评论
+     * @api {post} /hotel/comment 评论酒店服务
      *
      * @apiName commentHotel
      * @apiGroup Hotel
@@ -172,6 +176,9 @@ public class HotelController {
      *     HTTP/1.1 200 OK
      *     {
      *       "message": "success",
+     *       "data": {
+     *          "txhash": "0x.."
+     *        }
      *     }
      *
      *     HTTP/1.1 200 OK
@@ -205,7 +212,7 @@ public class HotelController {
     }
 
     /**
-     * @api {get} /hotel/comment/:addr/:index 得到用户酒店订单评论
+     * @api {get} /hotel/comment/:addr/:index 获取用户酒店订单评论
      * @apiParam {String} addr user address
      * @apiParam {Number} index 用户订单索引
      *
