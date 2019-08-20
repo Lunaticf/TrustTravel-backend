@@ -48,7 +48,8 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.58'
     compile("org.springframework.boot:spring-boot-starter-web")
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile "org.springframework.boot:spring-boot-devtools"
 
