@@ -84,6 +84,11 @@ contract TrustTravel {
     //监控用户
     event Users(string username, address addr);
     event RegisterEvent(int256 ret_code, string username, uint256 user_exp);
+    //事件监控
+    event BookingHotel(string username, address _addr, string _detailaddr, string hotel, uint price);
+    event BookingScene(string username, address _addr, string s_name, uint price);
+    event CommentsInfo(address _addr, uint _idx, string content, uint score);
+    event UpdateExp(string username, uint exp);
 
     constructor() public  { 
         //构造函数中创建t_user_exp表
@@ -92,7 +97,7 @@ contract TrustTravel {
     
     function createTable() private {
         TableFactory tf = TableFactory(0x1001);
-        // 资产管理表, key : username, field : user_exp
+        // 积分管理表, key : username, field : user_exp
         // |    用户名(主键)     |     用户积分      |
         // |-------------------- |-------------------|
         // |        username     |    user_exp       |     
@@ -181,9 +186,10 @@ contract TrustTravel {
         entry.set("user_exp", int256(pre_exp + exp));
         //更新用户积分
         table.update(username, entry, table.newCondition());
+        emit UpdateExp(username, exp);
     }
     
-    // User Register
+    //用户注册
     function UserRegister(string memory username, string memory passwd, address _addr) public returns(int256, bool, string memory, string memory){
         require(
             Login[username].addr == address(0)
@@ -204,7 +210,7 @@ contract TrustTravel {
         return keccak256(abi.encodePacked(s1)) == keccak256(abi.encodePacked(s2));
     }
     
-    //User Login
+    //用户登录
     function UserLogin(string memory username, string memory passwd) view public returns(bool, string memory, address){
         if (compareStringsbyBytes(Login[username].passwd,passwd)) {
             return(true, "Login successful", Login[username].addr);
@@ -214,7 +220,7 @@ contract TrustTravel {
         }
     }
     
-    // getUserInfo
+    //获取用户信息
     function GetUserAddress(string memory username) public returns(address, uint256) {
         uint256 exp = 0;
         int ret = 0;
@@ -240,6 +246,8 @@ contract TrustTravel {
         UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1, comment);
         userInfo[_addr].orders1.push(userSceneOrder);
         userInfo[_addr].Owner_money -= s_price;
+        
+        emit BookingScene(username, _addr, s_name, s_price);
         //购物即赋予一定的积分，积分规则为1元=1积分
         uint exp = s_price;
         update_exp(username, exp);
@@ -251,10 +259,12 @@ contract TrustTravel {
         //require(passwd == userInfo[_addr].passwd && username == userInfo[_addr].username);
         Room memory room = Room(_detailaddr, _hotel, _roomType, _fromDate, _toDate, _totalPrice);
         Comment memory comment = Comment(0, "", 0, false);
-        //SceneInfo memory sceneInfo = SceneInfo(_province, _city, s_name, s_price);
+        
         UserOrder memory userOrder = UserOrder(now, room, _OTA, "initialization", f2, comment);
         userInfo[_addr].orders.push(userOrder);
         userInfo[_addr].Owner_money -= _totalPrice;
+        
+        emit BookingHotel(username, _addr, _detailaddr, _hotel, _totalPrice);
         uint exp = _totalPrice;
         update_exp(username, exp);
     }
@@ -266,6 +276,8 @@ contract TrustTravel {
         );
         Comment memory comment = Comment(now, content, score, true);
         userInfo[_addr].orders[_idx].comment = comment;
+        
+        emit CommentsInfo(_addr, _idx, content, score);
     }
 
     
@@ -276,6 +288,8 @@ contract TrustTravel {
         );
         Comment memory comment = Comment(now, content, score, true);
         userInfo[_addr].orders1[_idx].comment = comment;
+        
+        emit CommentsInfo(_addr, _idx, content, score);
     }
 
     // 获得酒店评论
@@ -297,7 +311,7 @@ contract TrustTravel {
         return (_exist, _content, _score, _commentTime);
     }
     
-        //获取酒店评分均值
+    //获取酒店评分均值
     function getHotelScore(string memory _detailaddr, string memory _name) public returns(string memory, string memory, uint){
         for(uint i=0; i<UserAddress.length;i++){
             for(uint j=0; j<userInfo[UserAddress[i]].orders.length;j++){
