@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 contract TableFactory {
     function openTable(string) public constant returns (Table);  // 打开表
-    function createTable(string,address,string) public returns(int);  // 创建表
+    function createTable(string,string,string) public returns(int);  // 创建表
 }
 
 // 查询条件
