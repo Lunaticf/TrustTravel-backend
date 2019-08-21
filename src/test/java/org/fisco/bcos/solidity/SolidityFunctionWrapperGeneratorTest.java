@@ -66,6 +66,7 @@ public class SolidityFunctionWrapperGeneratorTest  {
             CompilationResult result = CompilationResult.parse(res.output);
             log.info("contractname  {}" , solFile.getName());
             String contractname = solFile.getName().split("\\.")[0];
+            log.info("cfuck  {}" , solFile.getName().split("\\.")[0]);
             CompilationResult.ContractMetadata a = result.getContract(solFile.getName().split("\\.")[0]);
             log.info("abi   {}" , a.abi);
             log.info("bin   {}" , a.bin);

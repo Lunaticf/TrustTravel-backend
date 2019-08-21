@@ -128,7 +128,8 @@ public class SceneController {
      *          "flag": 1
      *          "OTA": "携程"，
      *          "state": "Initialization",
-     *          "time": "2312412" (unix时间戳)
+     *          "time": "2312412" (unix时间戳),
+     *          "hash": "0x..."
      *       }
      *     }
      *
@@ -227,6 +228,7 @@ public class SceneController {
      *            "content": "很好",
      *            "time": "2312412" (unix时间戳)
      *            "score": 5 (1-5),
+     *            "hash": "0x...",
      *       }
      *     }
      *

@@ -123,6 +123,7 @@ public class HotelController {
      *     {
      *       "message": "success",
      *       "data": {
+     *            "detailAddr": "朝阳区....."
      *            "hotel": "如家",
      *            "roomType": "大床房",
      *            "fromDate": "2019-8-1",
@@ -130,7 +131,8 @@ public class HotelController {
      *            "OTA": "携程"，
      *            "totalPrice": 500,
      *            "state": "Initialization",
-     *            "time": "2312412" (unix时间戳)
+     *            "time": "2312412" (unix时间戳),
+     *            "hash": "0x..."
      *       }
      *     }
      *
@@ -229,6 +231,7 @@ public class HotelController {
      *            "content": "很好",
      *            "time": "2312412" (unix时间戳)
      *            "score": 5 (1-5),
+     *            "hash": "0x..."
      *       }
      *     }
      *

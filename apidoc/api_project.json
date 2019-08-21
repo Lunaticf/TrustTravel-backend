@@ -1,0 +1,1 @@
+{  "name": "TrustTravel backend API",  "version": "0.1.0",  "description": "apiDoc文档",  "title": "TrustTravel backend API",  "url": "http://123.207.73.24:3333",  "sampleUrl": false,  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2019-08-10T01:24:38.715Z",    "url": "http://apidocjs.com",    "version": "0.17.7"  }}

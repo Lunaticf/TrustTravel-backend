@@ -4,6 +4,15 @@ package org.fisco.bcos.model;
 
 public class HotelOrder {
 
+    public String getDetailAddr() {
+        return detailAddr;
+    }
+
+    public void setDetailAddr(String detailAddr) {
+        this.detailAddr = detailAddr;
+    }
+
+    private String detailAddr;
     private String addr;
     private String hotel;
     private String roomType;

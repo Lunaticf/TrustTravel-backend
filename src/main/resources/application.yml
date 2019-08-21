@@ -2,18 +2,18 @@ encrypt-type: # 0:standard, 1:guomi
  encrypt-type: 0
 
 contract:
-  address: "0xd46f3a6941dba65aabc968ed46cd8db224b7e1f2"
+  address: "0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729"
  
 group-channel-connections-config:
   all-channel-connections:
   - group-id: 1  #group ID
     connections-str:
-                    - 123.207.73.24:20200  # node listen_ip:channel_listen_port
-                    - 123.207.73.24:20201
+                    - 47.102.216.199:20200  # node listen_ip:channel_listen_port
+                    - 47.102.216.199:20201
   - group-id: 2  
     connections-str:
-                    - 123.207.73.24:20202  # node listen_ip:channel_listen_port
-                    - 123.207.73.24:20203
+                    - 47.102.216.199:20202  # node listen_ip:channel_listen_port
+                    - 47.102.216.199:20203
  
 channel-service:
   group-id: 1 # The specified group to which the SDK connects

@@ -34,7 +34,7 @@ public class ContractTest extends BaseTest {
 //                        .send();
 
         // load 服务器上bcos的hello world合约
-        String contractAddr = "0x7a519f571f028074d7929be5456cedcb6be9c424";
+        String contractAddr = "0x89bb0e5df40dba9f9e956e8f2f9c254f7d5c33b0";
         HelloWorld helloWorld = HelloWorld.load(contractAddr, web3j, credentials, new StaticGasProvider(
                                         GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
 
@@ -46,7 +46,6 @@ public class ContractTest extends BaseTest {
             TransactionReceipt receipt = helloWorld.set("fuck").send();
             System.out.println(receipt);
             System.out.println(helloWorld.get().send());
-
         }
     }
 
