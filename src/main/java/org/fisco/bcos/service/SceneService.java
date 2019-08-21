@@ -1,12 +1,10 @@
 package org.fisco.bcos.service;
 
 import org.fisco.bcos.model.CommonResult;
-import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.SceneOrder;
 import org.fisco.bcos.model.TrustTravel;
 import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tuples.generated.Tuple4;
 import org.fisco.bcos.web3j.tuples.generated.Tuple5;
 import org.slf4j.Logger;
@@ -29,7 +27,7 @@ public class SceneService {
     public CommonResult bookScene(SceneOrder sceneOrder) {
         CommonResult commonResult = new CommonResult("success");
         try {
-            TransactionReceipt receipt = trustTravel.bookOrder(sceneOrder.getAddr(), sceneOrder.getProvince(),
+            TransactionReceipt receipt = trustTravel.bookOrder("",sceneOrder.getAddr(), sceneOrder.getProvince(),
                     sceneOrder.getCity(), sceneOrder.getName(), BigInteger.valueOf(sceneOrder.getPrice()),
                     sceneOrder.getOta(), BigInteger.valueOf(sceneOrder.getFlag())).send();
             if (receipt.getStatus().equals("0x0")){
@@ -39,7 +37,7 @@ public class SceneService {
                 return commonResult;
             } else {
                 logger.info("交易执行发生异常 - 用户订购不成功");
-                commonResult.setMessage("order failed");
+               commonResult.setMessage("order failed");
                 return commonResult;
             }
         } catch (Exception e) {
@@ -70,7 +68,7 @@ public class SceneService {
     public CommonResult getSceneOrderDetail(String addr, int index) {
         CommonResult commonResult = new CommonResult<>("success");
         try {
-            Tuple3<BigInteger, String, String> tuple3 = trustTravel.getUserSceneOrdersInfo(BigInteger.valueOf(index), addr).send();
+            Tuple4<BigInteger, String, String, String> tuple3 = trustTravel.getUserSceneOrdersInfo(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
             hashMap.put("time", tuple3.getValue1().intValue());
             hashMap.put("OTA", tuple3.getValue2());
@@ -118,7 +116,7 @@ public class SceneService {
     public CommonResult getSceneOrderComment(String addr, int index) {
         CommonResult commonResult = new CommonResult<>("success");
         try {
-            Tuple4<Boolean, String, BigInteger, BigInteger> tuple4 = trustTravel.getUserSceneOrdersComment(BigInteger.valueOf(index), addr).send();
+            Tuple5<Boolean, String, BigInteger, BigInteger, String> tuple4 = trustTravel.getUserSceneOrdersComment(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
             hashMap.put("exist", tuple4.getValue1());
             hashMap.put("content", tuple4.getValue2());

@@ -84,10 +84,10 @@ public class ContractTest extends BaseTest {
         // 0x1代表成功
         //Assert.assertEquals(receipt.getStatus(), "0x1");
 
-        String retAddress = trustTravel.GetUserAddress("alice").send();
-        System.out.println(retAddress);
-        // get user address
-        Assert.assertEquals(address, retAddress);
+//        String retAddress = trustTravel.GetUserAddress("alice").send();
+//        System.out.println(retAddress);
+//        // get user address
+//        Assert.assertEquals(address, retAddress);
 
         // user login true
         Tuple3<Boolean, String, String> res = trustTravel.UserLogin("alice", "123456").send();

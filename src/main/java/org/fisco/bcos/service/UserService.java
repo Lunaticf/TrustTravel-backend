@@ -69,7 +69,7 @@ public class UserService {
         CommonResult<String> commonResult = new CommonResult<>("success");
         try {
             String addr = trustTravel.GetUserAddress(username).send();
-            // 可能用户名不存在 未注册
+             //可能用户名不存在 未注册
             if (addr != null){
                 commonResult.setData(addr);
                 return commonResult;

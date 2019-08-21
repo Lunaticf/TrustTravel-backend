@@ -4,7 +4,7 @@ import org.fisco.bcos.model.CommentResult;
 import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.SceneOrder;
-import org.fisco.bcos.service.HotelService;
+
 import org.fisco.bcos.service.SceneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

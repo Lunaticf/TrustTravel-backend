@@ -5,9 +5,9 @@ import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.TrustTravel;
 import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tuples.generated.Tuple4;
 import org.fisco.bcos.web3j.tuples.generated.Tuple5;
+import org.fisco.bcos.web3j.tuples.generated.Tuple6;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class HotelService {
     public CommonResult bookHotel(HotelOrder hotelOrder) {
         CommonResult commonResult = new CommonResult("success");
         try {
-            TransactionReceipt receipt = trustTravel.initializeOrder(hotelOrder.getAddr(), hotelOrder.getHotel(),
+            TransactionReceipt receipt = trustTravel.initializeOrder("",hotelOrder.getAddr(),"", hotelOrder.getHotel(),
                     hotelOrder.getRoomType(), hotelOrder.getFromDate(), hotelOrder.getToDate(),
                     hotelOrder.getOta(), BigInteger.valueOf(hotelOrder.getTotalPrice()), BigInteger.valueOf(hotelOrder.getFlag())).send();
 
@@ -72,13 +72,13 @@ public class HotelService {
     public CommonResult getHotelOrderDetail(String addr, int index) {
         CommonResult commonResult = new CommonResult<>("success");
         try {
-            Tuple3<BigInteger, String, String> tuple3 = trustTravel.getUserOrdersInfo(BigInteger.valueOf(index), addr).send();
+            Tuple4<BigInteger, String, String, String> tuple3 = trustTravel.getUserOrdersInfo(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
             hashMap.put("time", tuple3.getValue1().intValue());
             hashMap.put("OTA", tuple3.getValue2());
             hashMap.put("state", tuple3.getValue3());
 
-            Tuple5<String, String, String, String, BigInteger> tuple5 = trustTravel.getUserOrdersRoom(BigInteger.valueOf(index), addr).send();
+            Tuple6<String, String, String, String, String, BigInteger> tuple5 = trustTravel.getUserOrdersRoom(BigInteger.valueOf(index), addr).send();
             hashMap.put("hotel", tuple5.getValue1());
             hashMap.put("roomType", tuple5.getValue2());
 
@@ -121,7 +121,7 @@ public class HotelService {
     public CommonResult getHotelOrderComment(String addr, int index) {
         CommonResult commonResult = new CommonResult<>("success");
         try {
-            Tuple4<Boolean, String, BigInteger, BigInteger> tuple4 = trustTravel.getUserOrdersComment(BigInteger.valueOf(index), addr).send();
+            Tuple5<Boolean, String, BigInteger, BigInteger, String> tuple4 = trustTravel.getUserOrdersComment(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
             hashMap.put("exist", tuple4.getValue1());
             hashMap.put("content", tuple4.getValue2());

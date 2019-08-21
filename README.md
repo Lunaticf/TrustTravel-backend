@@ -32,7 +32,7 @@ junit绿色就是成功了
         }
 ```
 
-#### 部署的合约地址： 0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729
+#### 部署的合约地址： 0xd46f3a6941dba65aabc968ed46cd8db224b7e1f2
 
 
 
