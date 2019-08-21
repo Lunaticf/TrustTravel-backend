@@ -24,6 +24,7 @@ public class HotelController {
      *
      * @apiParamExample {json} Request-Example:
      *     {
+     *       "detailAddr": "朝阳区.....",
      *       "addr": "0x...",
      *       "hotel": "如家",
      *       "roomType": "大床房",
@@ -123,7 +124,6 @@ public class HotelController {
      *     {
      *       "message": "success",
      *       "data": {
-     *            "detailAddr": "朝阳区....."
      *            "hotel": "如家",
      *            "roomType": "大床房",
      *            "fromDate": "2019-8-1",
