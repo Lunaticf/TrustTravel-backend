@@ -41,8 +41,8 @@ public class SolidityFunctionWrapperGeneratorTest  {
     @Test
     public void generateClassFromABIForTrustTravel() throws Exception {
 
-        String binFile1 =  new ClassPathResource("solidity/TrustTravel.bin").getFile().getAbsolutePath();
-        String abiFile1 =  new ClassPathResource("solidity/TrustTravel.abi").getFile().getAbsolutePath();
+        String binFile1 =  new ClassPathResource("solidity/UserExp.bin").getFile().getAbsolutePath();
+        String abiFile1 =  new ClassPathResource("solidity/UserExp.abi").getFile().getAbsolutePath();
         SolidityFunctionWrapperGenerator.main(Arrays.asList(
                 "-b", binFile1,
                 "-a", abiFile1,

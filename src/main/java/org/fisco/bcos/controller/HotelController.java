@@ -30,7 +30,7 @@ public class HotelController {
      *       "roomType": "大床房",
      *       "fromDate": "2019-8-1", (前端可自行设置时间格式)
      *       "toDate": "2019-8-3", (前端可自行设置时间格式)
-     *       "OTA": "携程"，
+     *       "ota": "携程"，
      *       "totalPrice": 500,
      *       "flag": 1
      *     }

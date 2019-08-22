@@ -63,7 +63,8 @@ public class ContractTest extends BaseTest {
 
     @Test
     public void CallTrustTravel() throws Exception {
-        String contractAddr = "0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729";
+//        String contractAddr = "0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729";
+        String contractAddr = "0x7d7b94446ee9767e3ac8e9f33f9a08835da78c37";
         TrustTravel trustTravel = TrustTravel.load(contractAddr, web3j, credentials, new StaticGasProvider(
                 GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
 

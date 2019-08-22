@@ -33,7 +33,7 @@ junit绿色就是成功了
 ```
 
 #### 部署的合约地址： 0xd46f3a6941dba65aabc968ed46cd8db224b7e1f2
-
+#### 积分合约地址：0xb92d2c6f861f177692987fc3e30d81cc9b151abf
 
 
 Tasks
@@ -60,6 +60,8 @@ Tasks
 
 - [x] 后端设置跨域
 
+- [] 监管节点 积分查询 举证流程 抽奖等业务合约透明
+
 ### Tech Problem
  
 - TransactionReceipt 没有合约写操作返回值 建议使用event log 在receipt中解析比较麻烦
@@ -74,5 +76,3 @@ Tasks
 - 查询订单的时候 后端会多返回一个时间戳 前端自行转换
 
 
-## Todo
-- [] 监管节点 积分查询 举证流程 抽奖透明

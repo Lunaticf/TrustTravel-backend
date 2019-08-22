@@ -119,7 +119,7 @@ public class UserController {
     }
 
     /**
-     * @api {post} /user user login
+     * @api {post} /user/login user login
      * @apiName  user login
      * @apiGroup User
      *
