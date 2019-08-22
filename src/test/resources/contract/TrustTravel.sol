@@ -12,7 +12,7 @@ contract TrustTravel {
     
     // 酒店房间
     struct Room {
-        string detailaddr;
+        string detailAddr;
         string hotel;       // 酒店名
         string roomType;    // 房间类型
         string fromDate;    // 入住日期 2018-11-3
@@ -80,6 +80,15 @@ contract TrustTravel {
     constructor() public  { 
 
     }
+
+    //监控用户
+    event Users(string username, address addr);
+
+    //事件监控
+    event BookingHotel(address _addr, string _detailaddr, string hotel, uint price);
+    event BookingScene(address _addr, string s_name, uint price);
+    event CommentsInfo(address _addr, uint _idx, string content, uint score);
+
     // User Register
     function UserRegister(string memory username, string passwd, address _addr) public returns(bool, string memory, string memory){
         require(
@@ -88,6 +97,7 @@ contract TrustTravel {
         Login[username].passwd = passwd;
         Login[username].addr = _addr;
         setUserMoney(_addr);
+        emit Users(username, _addr);
         return(true, username, "Register successful!");
     }
 
@@ -141,6 +151,8 @@ contract TrustTravel {
         UserSceneOrder memory userSceneOrder = UserSceneOrder(now, sceneInfo, _OTA, "initialization", f1, comment, "");
         userInfo[_addr].orders1.push(userSceneOrder);
         userInfo[_addr].Owner_money -= s_price;
+
+        emit BookingScene(_addr, s_name, s_price);
     }
 
     // 订购酒店房间
@@ -153,6 +165,8 @@ contract TrustTravel {
         userInfo[_addr].orders.push(userOrder);
 
         userInfo[_addr].Owner_money -= _totalPrice;
+
+        emit BookingHotel(_addr, _detailaddr, _hotel, _totalPrice);
     }
     
     //对酒店订单进行评价
@@ -162,6 +176,8 @@ contract TrustTravel {
         );
         Comment memory comment = Comment(now, content, score, true, "");
         userInfo[_addr].orders[_idx].comment = comment;
+
+        emit CommentsInfo(_addr, _idx, content, score);
     }
 
     
@@ -172,6 +188,8 @@ contract TrustTravel {
         );
         Comment memory comment = Comment(now, content, score, true, "");
         userInfo[_addr].orders1[_idx].comment = comment;
+
+        emit CommentsInfo(_addr, _idx, content, score);
     }
 
     // 获得酒店评论
@@ -206,7 +224,7 @@ contract TrustTravel {
        string storage _state = userInfo[ _addr].orders[_idx].state;
         string storage _hash = userInfo[ _addr].orders[_idx].hash;
 
-       return (_time, _OTA, _state,_hash);
+       return (_time, _OTA, _state, _hash);
     }
     
     function getUserSceneOrdersInfo(uint _idx, address _addr) public view returns(uint, string memory, string memory, string memory){
@@ -218,14 +236,15 @@ contract TrustTravel {
     }
 
     // 得到用户订单的酒店信息
-    function getUserOrdersRoom(uint _idx, address _addr) public view returns (string memory, string memory, string memory, string memory, uint){
+    function getUserOrdersRoom(uint _idx, address _addr) public view returns (string memory, string memory, string memory, string memory, uint, string memory){
         string storage _hotel = userInfo[_addr].orders[_idx].room.hotel;
         string storage _roomType = userInfo[_addr].orders[_idx].room.roomType;
         string storage _fromDate = userInfo[_addr].orders[_idx].room.fromDate;
         string storage _toDate = userInfo[_addr].orders[_idx].room.toDate;
         uint _totalPrice = userInfo[_addr].orders[_idx].room.totalPrice;
+        string storage _detailAddr = userInfo[_addr].orders[_idx].room.detailAddr;
 
-        return (_hotel, _roomType, _fromDate, _toDate, _totalPrice);
+        return (_hotel, _roomType, _fromDate, _toDate, _totalPrice, _detailAddr);
     }
     
     //获取用户的余额

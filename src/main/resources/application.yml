@@ -2,7 +2,7 @@ encrypt-type: # 0:standard, 1:guomi
  encrypt-type: 0
 
 contract:
-  address: "0x8d2fdc1a7f1fa01facecf369bf9fe65d467a6729"
+  address: "0x7d7b94446ee9767e3ac8e9f33f9a08835da78c37"
  
 group-channel-connections-config:
   all-channel-connections:
