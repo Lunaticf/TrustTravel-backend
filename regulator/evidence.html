@@ -69,10 +69,15 @@ Header
 
 
 <section id="hero">
-    <div class="hero-container">
-        <h1 style="text-transform: none">TrustTravel</h1>
-        <h2 style="width: 800px;line-height: 40px;">基于FISCO BCOS的联盟链旅游服务平台 可信和安全的未来旅游服务生态</h2>
-        <a href="#main" class="btn-get-started">监管服务</a>
+    <div class="hero-container" style="margin-top: -100px;">
+        <h2 style="width: 800px;line-height: 40px;">TrustTravel监管一键举证服务</h2>
+        <div id="replace">
+            <a class="btn-get-started" id="fire1" style="margin-bottom: 50px;margin-left: 50px;">用户举证</a>
+            <a class="btn-get-started" id="fire2" style="margin-bottom: 50px;margin-left: 50px;">价格举证</a>
+            <a class="btn-get-started" id="fire3" style="margin-bottom: 50px;margin-left: 50px;">交易举证</a>
+        </div>
+        <h2 id="exp" style="width: 800px;line-height: 40px;"></h2>
+
     </div>
 </section><!-- #hero -->
 
@@ -148,6 +153,14 @@ Header
 
 <!-- Template Main Javascript File -->
 <script src="js/main.js"></script>
+<script>
+    $('.btn-get-started').on('click', function() {
+
+        $('#replace').hide();
+        $('#replace').load($(this).attr('id') + ".html").show();
+    })
+
+</script>
 
 </body>
 </html>

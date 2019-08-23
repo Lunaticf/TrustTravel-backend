@@ -3,6 +3,7 @@ package org.fisco.bcos.service;
 import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.SceneOrder;
 import org.fisco.bcos.model.TrustTravel;
+import org.fisco.bcos.model.UserExp;
 import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
@@ -21,6 +22,9 @@ public class SceneService {
     @Autowired
     private TrustTravel trustTravel;
 
+    @Autowired
+    private UserExp userExp;
+
     private Logger logger = LoggerFactory.getLogger(HotelService.class);
 
 
@@ -38,6 +42,11 @@ public class SceneService {
                 // 添加hash
                 trustTravel.setUserSceneOrderTx(sceneOrder.getAddr(), receipt.getTransactionHash()).send();
 
+                // 先获取用户姓名
+                String username = trustTravel.getUserName(sceneOrder.getAddr()).send();
+
+                // 更新积分
+                userExp.update_exp(username, BigInteger.valueOf(sceneOrder.getPrice())).send();
                 logger.info("用户订购成功");
                 return commonResult;
             } else {

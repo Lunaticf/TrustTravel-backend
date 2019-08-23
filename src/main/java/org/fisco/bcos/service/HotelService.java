@@ -3,6 +3,7 @@ package org.fisco.bcos.service;
 import org.fisco.bcos.model.CommonResult;
 import org.fisco.bcos.model.HotelOrder;
 import org.fisco.bcos.model.TrustTravel;
+import org.fisco.bcos.model.UserExp;
 import org.fisco.bcos.utils.HelpUtils;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
@@ -23,6 +24,9 @@ public class HotelService {
     @Autowired
     private TrustTravel trustTravel;
 
+    @Autowired
+    private UserExp userExp;
+
     private Logger logger = LoggerFactory.getLogger(HotelService.class);
 
 
@@ -41,6 +45,13 @@ public class HotelService {
 
                 // 添加hash
                 trustTravel.setUserOrderTx(hotelOrder.getAddr(), receipt.getTransactionHash()).send();
+
+                // 先获取用户姓名
+                String username = trustTravel.getUserName(hotelOrder.getAddr()).send();
+
+                // 更新积分
+                userExp.update_exp(username, BigInteger.valueOf(hotelOrder.getTotalPrice())).send();
+
                 logger.info("用户订购成功");
                 return commonResult;
             } else {
