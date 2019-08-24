@@ -89,7 +89,7 @@ public class HotelService {
         try {
             Tuple4<BigInteger, String, String, String> tuple4 = trustTravel.getUserOrdersInfo(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
-            hashMap.put("time", tuple4.getValue1().intValue());
+            hashMap.put("time", tuple4.getValue1().toString());
             hashMap.put("OTA", tuple4.getValue2());
             hashMap.put("state", tuple4.getValue3());
             hashMap.put("state", tuple4.getValue3());

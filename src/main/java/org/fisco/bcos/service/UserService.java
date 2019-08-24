@@ -1,13 +1,13 @@
 package org.fisco.bcos.service;
 
-import org.fisco.bcos.model.CommonResult;
-import org.fisco.bcos.model.TrustTravel;
-import org.fisco.bcos.model.User;
+import org.fisco.bcos.model.*;
 import org.fisco.bcos.web3j.crypto.Credentials;
 import org.fisco.bcos.web3j.crypto.EncryptType;
+import org.fisco.bcos.web3j.crypto.Hash;
 import org.fisco.bcos.web3j.crypto.gm.GenCredential;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
+import org.fisco.bcos.web3j.tuples.generated.Tuple4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,9 @@ public class UserService {
 
     @Autowired
     private TrustTravel trustTravel;
+
+    @Autowired
+    private UserInfo userInfo;
 
     // 为新注册用户生成一个地址
     public static String genAddress() {
@@ -117,6 +120,47 @@ public class UserService {
             return commonResult;
         } catch (Exception e) {
             logger.info("获取用户余额 - 交易发生异常", e.getMessage());
+            commonResult.setMessage("server error");
+            return commonResult;
+        }
+    }
+
+    // 注册电子身份
+    public CommonResult registerDigitUser(DigitUser digitUser) {
+        CommonResult commonResult = new CommonResult("success");
+        try {
+            TransactionReceipt receipt = userInfo.user_create(digitUser.getUsername(), digitUser.getName(), digitUser.getIdentity(), digitUser.getAgency()).send();
+            // 如果交易执行成功
+            System.out.println(receipt);
+            if (receipt.getStatus().equals("0x0")){
+                logger.info("用户电子身份注册成功");
+                return commonResult;
+            }
+        } catch (Exception e) {
+            logger.info("用户注册 - 交易发生异常", e.getMessage());
+            commonResult.setMessage("server error");
+            return commonResult;
+        }
+        return commonResult;
+    }
+
+
+    // 读取用户数字身份
+    public CommonResult getDigitUser(String username) {
+        CommonResult commonResult = new CommonResult<>("success");
+        try {
+            Tuple4<String, String, String, String> tuple4 = userInfo.user_get(username).send();
+            HashMap hashMap = new HashMap();
+            hashMap.put("username", tuple4.getValue1());
+            hashMap.put("name", tuple4.getValue2());
+            hashMap.put("identity", tuple4.getValue3());
+            hashMap.put("agency", tuple4.getValue3());
+
+            commonResult.setData(hashMap);
+
+            return commonResult;
+        } catch (Exception e) {
+            logger.info("获取用户数字身份详情信息 - 异常", e.getMessage());
             commonResult.setMessage("server error");
             return commonResult;
         }

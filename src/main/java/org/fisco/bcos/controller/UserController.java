@@ -1,9 +1,7 @@
 package org.fisco.bcos.controller;
 
 import org.fisco.bcos.exception.TransactionExecException;
-import org.fisco.bcos.model.CommonResult;
-import org.fisco.bcos.model.TrustTravel;
-import org.fisco.bcos.model.User;
+import org.fisco.bcos.model.*;
 import org.fisco.bcos.service.UserService;
 import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.slf4j.Logger;
@@ -206,5 +204,100 @@ public class UserController {
         }
         return null;    // cheat the compiler
     }
+
+    /**
+     * @api {post} /digitUser/register 注册用户电子身份
+     *
+     * @apiName  注册用户电子身份
+     * @apiGroup User
+     *
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "message": "success"
+     *     }
+     *
+     * @apiParamExample {json} Request-Example:
+     *     {
+     *       "username": "john",
+     *       "name": "张三",
+     *       "identity": "340223199304170023",
+     *       "agency: "XXX局"
+     *     }
+     *
+     * @apiErrorExample Client-Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *
+     * @apiErrorExample Server-Error-Response:
+     *     HTTP/1.1 500 Server Error
+     *     {
+     *       "message": "server error"
+     *     }
+     */
+    @PostMapping("/digitUser/register")
+    public ResponseEntity<CommonResult<String>> registerDigitUser(@RequestBody DigitUser digitUser) {
+        CommonResult commonResult = userService.registerDigitUser(digitUser);
+        switch (commonResult.getMessage()) {
+            case "success" :
+                return new ResponseEntity<>(commonResult, HttpStatus.OK);
+            case "server error":
+                return new ResponseEntity<>(commonResult, HttpStatus.INTERNAL_SERVER_ERROR);
+            default:
+                System.exit(1); // this should nerve happen;
+        }
+        return null;    // cheat the compiler
+    }
+
+
+    /**
+     * @api {get} /digitUser?username="张三" 获取用户电子身份
+     *
+     * @apiName  获取用户电子身份
+     * @apiGroup User
+     *
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     {
+     *       "message": "success",
+     *       "data": {
+     *            "username": "john",
+     *           "name": "张三",
+     *          "identity": "340223199304170023",
+     *          "agency: "XXX局"
+     *       }
+     *
+     *     }
+     *
+     *
+     *
+     * @apiErrorExample Client-Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *
+     * @apiErrorExample Server-Error-Response:
+     *     HTTP/1.1 500 Server Error
+     *     {
+     *       "message": "server error"
+     *     }
+     */
+    @GetMapping("/digitUser")
+    public ResponseEntity<CommonResult<String>> getDigitUser(@RequestParam("username") String username) {
+        CommonResult commonResult = userService.getDigitUser(username);
+        switch (commonResult.getMessage()) {
+            case "success" :
+                return new ResponseEntity<>(commonResult, HttpStatus.OK);
+            case "server error":
+                return new ResponseEntity<>(commonResult, HttpStatus.INTERNAL_SERVER_ERROR);
+            default:
+                System.exit(1); // this should nerve happen;
+        }
+        return null;    // cheat the compiler
+    }
+
+
+
+
+
 
 }

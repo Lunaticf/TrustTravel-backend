@@ -72,13 +72,12 @@ Header
     <div class="hero-container" style="margin-top: 100px;">
         <h2 style="width: 800px;line-height: 40px;">TrustTravel监管一键举证服务</h2>
         <div id="replace">
-            <a class="btn-get-started" id="fire1" style="margin-bottom: 50px;margin-left: 50px;">用户举证</a>
-            <a class="btn-get-started" id="fire2" style="margin-bottom: 50px;margin-left: 50px;">价格举证</a>
+            <a class="btn-get-started" id="fire2" style="margin-bottom: 50px;margin-left: 20px;">价格举证</a>
             <a class="btn-get-started" id="fire3" style="margin-bottom: 50px;margin-left: 50px;">交易举证</a>
         </div>
         <h2 id="exp" style="width: 800px;line-height: 40px;"></h2>
         <div class="card" style="display: none;text-align: left;margin-top: -70px;">
-            <div class="card-header">
+            <div class="card-header" style="height: 100px;">
             </div>
             <div class="card-body">
 
@@ -165,6 +164,34 @@ Header
         $('#replace').load($(this).attr('id') + ".html").show();
     });
 
+    var mapping = {
+        "_addr":"用户地址",
+        "_detailaddr": "酒店地址",
+        "hotel": "酒店名称",
+        "price": "酒店价格"
+    };
+
+    function checkPrice() {
+        $('.card-body').text("");
+        $(".card-header").text("");
+        var requestParam = "?hash1=" + $('#f1').val() + "&hash2=" + $('#f2').val();
+        $.ajax({
+            url: "http://localhost:3333/legal/price" + requestParam ,
+
+        }).done(function (json) {
+            $(".card").show();
+            $(".card-header").text("价格举证结果");
+            $(".card-header").css("height", "50px");
+
+            if (json.res === 'true') {
+                $('.card-body').append("<p class=\"card-text\" style=\"display:inline\">提交的旅游服务相同</p>")
+                $('.card-body').append("<a class=\"btn-get-started btn-danger\" id=\"f\" style=\"margin-bottom: 50px;margin-left: 50px;\">价格存在差异</a>")
+            } else {
+                $('.card-body').append("<p class=\"card-text\">提交的旅游服务不相同</p>")
+            }
+        });
+    }
+
     function getTx() {
         $('.card-body').text("");
         $(".card-header").text("");
@@ -187,15 +214,15 @@ Header
                 eventType = "链上评论存证";
             }
 
-            $(".card-header").text(eventType);
+
+            $(".card-header").html(eventType + "<a class=\"btn-get-started btn-primary\" id=\"f\" style=\"margin-bottom: 50px;margin-left: 50px;\">下载详细凭证</a>");
 
             var html = ""
             for (var i = 0; i < json.eventData.length; i++) {
-                html += "<p class=\"card-text\">" + json.eventData[i].name + ": " + json.eventData[i].data + "</p>"
+                html += "<p class=\"card-text\">" + mapping[json.eventData[i].name] + ": " + json.eventData[i].data + "</p>"
                 console.log(json.eventData[i]);
 
             }
-            html += " <a class=\"btn-get-started\" id=\"f\" style=\"margin-bottom: 50px;margin-left: 50px;\">下载凭证</a>";
             $('.card-body').append(html)
 
         });

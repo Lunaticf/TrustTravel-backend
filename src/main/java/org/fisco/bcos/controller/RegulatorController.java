@@ -103,4 +103,75 @@ public class RegulatorController {
         return JSON.toJSONString(res);
     }
 
+    // 价格举证
+    @GetMapping(value="/legal/price", produces = "application/json; charset=utf-8")
+    public String preventFamiliar(@RequestParam("hash1") String hash1, @RequestParam("hash2") String hash2) {
+        HashMap res = new HashMap();
+
+        try {
+            BcosTransactionReceipt receipt = web3j.getTransactionReceipt(hash1).send();
+            Optional<TransactionReceipt> transactionReceipt = receipt.getTransactionReceipt();
+            List<Log> logs =
+                    transactionReceipt.get().getLogs();
+            Map<String, List<List<EventResultEntity>>> eventMap1 = HelpUtils.getTxDecoder4Travel().decodeEventReturnObject(logs);
+            Set set1 = eventMap1.keySet();
+
+            receipt = web3j.getTransactionReceipt(hash2).send();
+            transactionReceipt = receipt.getTransactionReceipt();
+            logs =
+                    transactionReceipt.get().getLogs();
+            Map<String, List<List<EventResultEntity>>> eventMap2 = HelpUtils.getTxDecoder4Travel().decodeEventReturnObject(logs);
+            Set set2 = eventMap2.keySet();
+
+            String eventType1 = (String)set1.iterator().next();
+            String eventType2 = (String)set2.iterator().next();
+
+            List<EventResultEntity> list1 = eventMap1.get(eventType1).get(0);
+            List<EventResultEntity> list2 = eventMap2.get(eventType2).get(0);
+
+            boolean priceProblem = false;
+
+            // 如果类型相同
+            if (eventType1.equals(eventType2)) {
+                // 判断各个字段
+                for (int i = 0; i < list1.size(); i++) {
+                    String key1 = (String)list1.get(i).getName();
+                    String key2 = (String)list2.get(i).getName();
+
+                    if (key1.equals("_addr")) {
+                        continue;
+                    }
+                    else if (key1.equals("price")) {
+                        BigInteger data1 = (BigInteger) list1.get(i).getData();
+                        BigInteger data2 = (BigInteger) list2.get(i).getData();
+
+                        priceProblem = !data1.equals(data2);
+
+                    }
+                    else  {
+                        String data1 = (String)list1.get(i).getData();
+                        String data2 = (String)list2.get(i).getData();
+                        if (!data1.equals(data2)) {
+                            res.put("res", "false");
+                            return JSON.toJSONString(res);
+                        }
+                    }
+                }
+
+                // 如果价格不同
+                if (priceProblem) {
+                    res.put("res", "true");
+                }
+            } else {
+                res.put("res", "false");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BaseException e) {
+            e.printStackTrace();
+        }
+
+        return JSON.toJSONString(res);
+    }
+
 }

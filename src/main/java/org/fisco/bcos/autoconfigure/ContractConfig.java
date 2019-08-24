@@ -4,6 +4,7 @@ import lombok.Data;
 import org.fisco.bcos.constants.GasConstants;
 import org.fisco.bcos.model.TrustTravel;
 import org.fisco.bcos.model.UserExp;
+import org.fisco.bcos.model.UserInfo;
 import org.fisco.bcos.web3j.crypto.Credentials;
 import org.fisco.bcos.web3j.protocol.Web3j;
 import org.fisco.bcos.web3j.tx.gas.StaticGasProvider;
@@ -19,6 +20,7 @@ public class ContractConfig {
 
     private String address1;
     private String address2;
+    private String address3;
 
     @Autowired
     private Web3j web3j;
@@ -37,4 +39,12 @@ public class ContractConfig {
         return UserExp.load(address2, web3j, credentials, new StaticGasProvider(
                 GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
     }
+
+    @Bean
+    public UserInfo getUserInfo() {
+        return UserInfo.load(address3, web3j, credentials, new StaticGasProvider(
+                GasConstants.GAS_PRICE, GasConstants.GAS_LIMIT));
+    }
+
+
 }
