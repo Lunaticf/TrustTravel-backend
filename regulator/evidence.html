@@ -76,8 +76,8 @@ Header
             <a class="btn-get-started" id="fire3" style="margin-bottom: 50px;margin-left: 50px;">交易举证</a>
         </div>
         <h2 id="exp" style="width: 800px;line-height: 40px;"></h2>
-        <div class="card" style="display: none;text-align: left;margin-top: -70px;">
-            <div class="card-header" style="height: 100px;">
+        <div class="card" style="display: none;text-align: left;align:center;margin-top: -70px;">
+            <div class="card-header" style="height: 120px;">
             </div>
             <div class="card-body">
 
@@ -176,11 +176,11 @@ Header
         $(".card-header").text("");
         var requestParam = "?hash1=" + $('#f1').val() + "&hash2=" + $('#f2').val();
         $.ajax({
-            url: "http://localhost:3333/legal/price" + requestParam ,
+            url: "http://localhost:3333/legal/price" + requestParam,
 
         }).done(function (json) {
             $(".card").show();
-            $(".card-header").text("价格举证结果");
+            $(".card-header").html("价格举证结果" + "<a class=\"btn-get-started btn-primary\" id=\"f\" style=\"margin-bottom: 50px;margin-left: 50px;\">下载详细凭证</a>");
             $(".card-header").css("height", "50px");
 
             if (json.res === 'true') {

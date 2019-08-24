@@ -84,7 +84,7 @@ public class SceneService {
         try {
             Tuple4<BigInteger, String, String, String> tuple41 = trustTravel.getUserSceneOrdersInfo(BigInteger.valueOf(index), addr).send();
             HashMap hashMap = new HashMap();
-            hashMap.put("time", tuple41.getValue1().intValue());
+            hashMap.put("time", tuple41.getValue1().toString());
             hashMap.put("OTA", tuple41.getValue2());
             hashMap.put("state", tuple41.getValue3());
             hashMap.put("hash", tuple41.getValue4());
@@ -141,7 +141,7 @@ public class SceneService {
             hashMap.put("exist", tuple5.getValue1());
             hashMap.put("content", tuple5.getValue2());
             hashMap.put("score", tuple5.getValue3().intValue());
-            hashMap.put("time", tuple5.getValue4().intValue());
+            hashMap.put("time", tuple5.getValue4().toString());
             hashMap.put("hash", tuple5.getValue5());
 
             commonResult.setData(hashMap);

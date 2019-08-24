@@ -146,7 +146,7 @@ public class HotelService {
             hashMap.put("exist", tuple5.getValue1());
             hashMap.put("content", tuple5.getValue2());
             hashMap.put("score", tuple5.getValue3().intValue());
-            hashMap.put("time", tuple5.getValue4().intValue());
+            hashMap.put("time", tuple5.getValue4().toString());
             hashMap.put("hash", tuple5.getValue5());
 
 
