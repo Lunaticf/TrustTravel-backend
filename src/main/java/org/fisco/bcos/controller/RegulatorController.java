@@ -15,16 +15,16 @@ import org.fisco.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.fisco.bcos.web3j.tuples.generated.Tuple2;
 import org.fisco.bcos.web3j.tuples.generated.Tuple3;
 import org.fisco.bcos.web3j.tx.txdecode.BaseException;
+import org.fisco.bcos.web3j.tx.txdecode.EventResultEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 监管节点 控制层
@@ -76,27 +76,31 @@ public class RegulatorController {
 
 
     // 解析交易event
-    @PostMapping("/legal/tx")
-    public HotelEvent decoderHotelTx(@RequestBody String json) {
-        JSONObject parse = JSON.parseObject(json);
-        String hash = (String)parse.get("hash");
-        System.out.println(hash);
+    @GetMapping(value="/legal/tx/{hash}", produces = "application/json; charset=utf-8")
+    public String decoderHotelTx(@PathVariable("hash") String hash) {
+        HashMap res = new HashMap();
 
         try {
             BcosTransactionReceipt receipt = web3j.getTransactionReceipt(hash).send();
             Optional<TransactionReceipt> transactionReceipt = receipt.getTransactionReceipt();
             List<Log> logs =
                     transactionReceipt.get().getLogs();
-            String eventJson = HelpUtils.getTxDecoder4Travel().decodeEventReturnJson(logs);
-            System.out.println(eventJson);
+            Map<String, List<List<EventResultEntity>>> eventMap = HelpUtils.getTxDecoder4Travel().decodeEventReturnObject(logs);
+
+            Set set = eventMap.keySet();
+
+            String eventType = (String)set.iterator().next();
+
+            res.put("eventType", eventType.substring(0, eventType.indexOf('(')));
+            res.put("eventData", eventMap.get(eventType).get(0));
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BaseException e) {
             e.printStackTrace();
         }
 
-
-        return new HotelEvent();
+        return JSON.toJSONString(res);
     }
 
 }

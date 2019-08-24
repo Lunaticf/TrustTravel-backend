@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Regna Bootstrap Template</title>
+    <title>TrustTravel监管服务</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -69,7 +69,7 @@ Header
 
 
 <section id="hero">
-    <div class="hero-container" style="margin-top: -100px;">
+    <div class="hero-container" style="margin-top: 100px;">
         <h2 style="width: 800px;line-height: 40px;">TrustTravel监管一键举证服务</h2>
         <div id="replace">
             <a class="btn-get-started" id="fire1" style="margin-bottom: 50px;margin-left: 50px;">用户举证</a>
@@ -77,7 +77,13 @@ Header
             <a class="btn-get-started" id="fire3" style="margin-bottom: 50px;margin-left: 50px;">交易举证</a>
         </div>
         <h2 id="exp" style="width: 800px;line-height: 40px;"></h2>
+        <div class="card" style="display: none;text-align: left;margin-top: -70px;">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
 
+            </div>
+        </div>
     </div>
 </section><!-- #hero -->
 
@@ -155,11 +161,46 @@ Header
 <script src="js/main.js"></script>
 <script>
     $('.btn-get-started').on('click', function() {
-
         $('#replace').hide();
         $('#replace').load($(this).attr('id') + ".html").show();
-    })
+    });
 
+    function getTx() {
+        $('.card-body').text("");
+        $(".card-header").text("");
+        $.ajax({
+            url: "http://localhost:3333/legal/tx/" + $('.form-control').val(),
+
+
+        }).done(function (json) {
+            // console.log(res);
+            // var json = $.parseJSON(res);
+            // console.log(json);
+
+            $(".card").show();
+            var eventType = "";
+            if (json.eventType === "BookingHotel") {
+                eventType = "链上旅游服务存证";
+            } else if (json.eventType === "BookingScene") {
+                eventType = "链上旅游服务存证";
+            } else {
+                eventType = "链上评论存证";
+            }
+
+            $(".card-header").text(eventType);
+
+            var html = ""
+            for (var i = 0; i < json.eventData.length; i++) {
+                html += "<p class=\"card-text\">" + json.eventData[i].name + ": " + json.eventData[i].data + "</p>"
+                console.log(json.eventData[i]);
+
+            }
+            html += " <a class=\"btn-get-started\" id=\"f\" style=\"margin-bottom: 50px;margin-left: 50px;\">下载凭证</a>";
+            $('.card-body').append(html)
+
+        });
+
+    }
 </script>
 
 </body>

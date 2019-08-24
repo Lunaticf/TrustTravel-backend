@@ -75,7 +75,12 @@ Header
             <input type="text" placeholder="请输入用户名" class="form-control" style="width: 200px;margin-bottom: 40px;">
             <a class="btn-get-started" id="fire" style="margin-bottom: 50px;margin-left: 50px;">查询</a>
         </form>
-        <h2 id="exp" style="width: 800px;line-height: 40px;"></h2>
+        <div id="exp" style="display: none">
+            <h2 id="credit" style="width: 800px;line-height: 40px;"></h2>
+        </div>
+
+
+
 
     </div>
 </section><!-- #hero -->
@@ -153,13 +158,16 @@ Header
 <!-- Template Main Javascript File -->
 <script src="js/main.js"></script>
 <script>
+
     $('#fire').on('click', function() {
+        var username = $('.form-control').val();
         $.ajax({
             // 要改
-            url: "http://localhost:3333/exp/" + $('.form-control').val(),
+            url: "http://localhost:3333/legal/tx",
+            type: 'POST',
         }).done(function(res) {
-            console.log(res);
-            $('#exp').text("用户积分为：" + $.parseJSON(res).exp);
+            $('#credit').text(username + "积分为：" + $.parseJSON(res).exp);
+            $('#exp').show();
         });
     })
 </script>
